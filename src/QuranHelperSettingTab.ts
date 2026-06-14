@@ -125,5 +125,21 @@ export class QuranHelperSettingTab extends PluginSettingTab {
           void this.plugin.saveSettings();
         }),
       );
+
+    new Setting(containerEl).setName("Translation Options").setHeading();
+
+    new Setting(containerEl)
+      .setName("Show English Translation")
+      .setDesc(
+        "Display Sahih International English translation below the Arabic text when inserting verses",
+      )
+      .addToggle((toggle) =>
+        toggle
+          .setValue(this.plugin.settings.showTranslation)
+          .onChange((value) => {
+            this.plugin.settings.showTranslation = value;
+            void this.plugin.saveSettings();
+          }),
+      );
   }
 }

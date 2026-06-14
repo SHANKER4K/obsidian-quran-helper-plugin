@@ -41,6 +41,24 @@ class QuranDataService {
 
       const rawAyahs = rawData;
 
+      // Load English translation data
+      let translationMap: Map<string, string> | null = null;
+      try {
+        const transData = await import("./en_ayahs.json");
+        const rawTranslation = (transData.default || transData) as Array<{
+          surah_id: number;
+          ayah_id: number;
+          text: string;
+        }>;
+        translationMap = new Map(
+          rawTranslation.map((t) => [`${t.surah_id}:${t.ayah_id}`, t.text]),
+        );
+      } catch {
+        console.warn(
+          "Translation file not found. English translations will be unavailable.",
+        );
+      }
+
       const surahs = await surahDataService.getSurahs();
       const surahMap = new Map(surahs.map((s) => [s.id, s.transliteration]));
 
@@ -48,6 +66,9 @@ class QuranDataService {
         const enrichedAyah = {
           ...ayah,
           surah_name_en: surahMap.get(ayah.surah_id) || "",
+          translation_en:
+            translationMap?.get(`${ayah.surah_id}:${ayah.ayah_id}`) ||
+            undefined,
         };
 
         if (!enrichedAyah.normalized_text) {

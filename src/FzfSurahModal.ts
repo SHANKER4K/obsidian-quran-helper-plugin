@@ -84,19 +84,28 @@ export class FzfSurahModal extends SuggestModal<IndexedSurah> {
           throw new Error(`Could not find verses for surah ${surah.id}`);
         }
 
-        const { outputFormat, calloutType } = this.plugin.settings;
+        const { outputFormat, calloutType, showTranslation } =
+          this.plugin.settings;
         const contentParts: string[] = [];
 
         if (evt.ctrlKey || evt.metaKey) {
-          const inlineParts = surahAyahs.map(
-            (ayah) =>
-              `{ ${ayah.text} } – ${surah.transliteration} ${ayah.ayah_id}`,
-          );
+          const inlineParts = surahAyahs.map((ayah) => {
+            const translation =
+              showTranslation && ayah.translation_en
+                ? ayah.translation_en
+                : null;
+            return translation
+              ? `{ ${ayah.text} – ${translation} } – ${surah.transliteration} ${ayah.ayah_id}`
+              : `{ ${ayah.text} } – ${surah.transliteration} ${ayah.ayah_id}`;
+          });
           contentParts.push(inlineParts.join("\n\n") + "\n\n");
         } else if (outputFormat === "blockquote") {
           contentParts.push(`> ## ${surah.name} \n>\n`);
           surahAyahs.forEach((ayah) => {
             contentParts.push(`> ${ayah.ayah_id}. ${ayah.text}\n`);
+            if (showTranslation && ayah.translation_en) {
+              contentParts.push(`> ${ayah.translation_en}\n`);
+            }
           });
           contentParts.push(`\n\n`);
         } else {
@@ -105,6 +114,9 @@ export class FzfSurahModal extends SuggestModal<IndexedSurah> {
           contentParts.push("> ");
           surahAyahs.forEach((ayah) => {
             contentParts.push(`${ayah.text} (${ayah.ayah_id}) `);
+            if (showTranslation && ayah.translation_en) {
+              contentParts.push(`— ${ayah.translation_en} `);
+            }
           });
           contentParts.push(`\n\n`);
         }

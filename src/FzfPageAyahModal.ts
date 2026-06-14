@@ -77,12 +77,18 @@ export class FzfPageAyahModal extends SuggestModal<PageAyahItem> {
       return;
     }
 
-    const { outputFormat, calloutType } = this.plugin.settings;
+    const { outputFormat, calloutType, showTranslation } = this.plugin.settings;
+    const translation =
+      showTranslation && ayah.translation_en ? ayah.translation_en : null;
     const type = calloutType || "quran";
     const content =
       outputFormat === "blockquote"
-        ? `> ${ayah.text}\n> — ${ayah.surah_name} - ${ayah.ayah_id}\n\n`
-        : `> [!${type}] ${ayah.surah_name} - ${ayah.ayah_id}\n> ${ayah.text}\n\n`;
+        ? translation
+          ? `> ${ayah.text}\n> ${translation}\n> — ${ayah.surah_name} - ${ayah.ayah_id}\n\n`
+          : `> ${ayah.text}\n> — ${ayah.surah_name} - ${ayah.ayah_id}\n\n`
+        : translation
+          ? `> [!${type}] ${ayah.surah_name} - ${ayah.ayah_id}\n> ${ayah.text}\n> ${translation}\n\n`
+          : `> [!${type}] ${ayah.surah_name} - ${ayah.ayah_id}\n> ${ayah.text}\n\n`;
 
     this.insertContent(editor, content);
   }
@@ -95,7 +101,7 @@ export class FzfPageAyahModal extends SuggestModal<PageAyahItem> {
       return;
     }
 
-    const { outputFormat, calloutType } = this.plugin.settings;
+    const { outputFormat, calloutType, showTranslation } = this.plugin.settings;
     const first = ayahs.at(0);
     const last = ayahs.at(-1);
     if (!first || !last) return;
@@ -107,6 +113,9 @@ export class FzfPageAyahModal extends SuggestModal<PageAyahItem> {
       content = `> ## ${header}\n>\n`;
       ayahs.forEach((ayah) => {
         content += `> ${ayah.ayah_id}. ${ayah.text}\n`;
+        if (showTranslation && ayah.translation_en) {
+          content += `> ${ayah.translation_en}\n`;
+        }
       });
       content += `\n`;
     } else {
@@ -117,6 +126,9 @@ export class FzfPageAyahModal extends SuggestModal<PageAyahItem> {
           content += `\n> \n> `;
         }
         content += `${ayah.text} (${ayah.ayah_id}) `;
+        if (showTranslation && ayah.translation_en) {
+          content += `— ${ayah.translation_en} `;
+        }
       });
       content += `\n`;
     }

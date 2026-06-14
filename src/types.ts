@@ -6,6 +6,7 @@ export interface SearchableAyah {
   normalized_text?: string;
   surah_name_en: string;
   page: number;
+  translation_en?: string;
 }
 
 export function isSearchableAyah(item: unknown): item is SearchableAyah {
@@ -74,6 +75,7 @@ export interface QuranHelperSettings {
     | "arabic-ayah"
     | "arabic/ayah";
   linkToSurah: boolean;
+  showTranslation: boolean;
 }
 
 export const DEFAULT_SETTINGS: QuranHelperSettings = {
@@ -83,4 +85,5 @@ export const DEFAULT_SETTINGS: QuranHelperSettings = {
   ayahNoteTags: "",
   ayahNotePathPattern: "surah-ayah",
   linkToSurah: false,
+  showTranslation: false,
 };

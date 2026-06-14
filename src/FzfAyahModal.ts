@@ -83,17 +83,26 @@ export class FzfAyahModal extends SuggestModal<IndexedAyah> {
     }
 
     try {
-      const { outputFormat, calloutType } = this.plugin.settings;
+      const { outputFormat, calloutType, showTranslation } =
+        this.plugin.settings;
+      const translation =
+        showTranslation && ayah.translation_en ? ayah.translation_en : null;
       let content = "";
 
       if (evt.ctrlKey || evt.metaKey) {
-        content = `{ ${ayah.text} } – ${ayah.surah_name} ${ayah.ayah_id}`;
+        content = translation
+          ? `{ ${ayah.text} – ${translation} } – ${ayah.surah_name} ${ayah.ayah_id}`
+          : `{ ${ayah.text} } – ${ayah.surah_name} ${ayah.ayah_id}`;
       } else if (outputFormat === "blockquote") {
-        content = `> ${ayah.text}\n> — ${ayah.surah_name} - ${ayah.ayah_id}\n\n`;
+        content = translation
+          ? `> ${ayah.text}\n> ${translation}\n> — ${ayah.surah_name} - ${ayah.ayah_id}\n\n`
+          : `> ${ayah.text}\n> — ${ayah.surah_name} - ${ayah.ayah_id}\n\n`;
       } else {
         // Callout format
         const type = calloutType || "quran";
-        content = `> [!${type}] ${ayah.surah_name} - ${ayah.ayah_id}\n> ${ayah.text}\n\n`;
+        content = translation
+          ? `> [!${type}] ${ayah.surah_name} - ${ayah.ayah_id}\n> ${ayah.text}\n> ${translation}\n\n`
+          : `> [!${type}] ${ayah.surah_name} - ${ayah.ayah_id}\n> ${ayah.text}\n\n`;
       }
 
       const cursor = editor.getCursor();

@@ -14,7 +14,8 @@
     "prebuild": "npx tsx scripts/enrich_data.ts",
     "version": "node version-bump.mjs",
     "test": "jest",
-    "enrich": "npx tsx scripts/enrich_data.ts"
+    "enrich": "npx tsx scripts/enrich_data.ts",
+    "fetch:translation": "npx tsx scripts/fetch_translation.ts"
   },
   "keywords": [
     "obsidian-plugin",
