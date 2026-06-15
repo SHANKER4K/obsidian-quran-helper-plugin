@@ -27,6 +27,11 @@
   --callout-icon: quran-surah;
 }
 
+.callout[data-callout="hadith"] {
+  --callout-icon: lucide-book-open-text;
+  --callout-color: var(--color-orange-rgb, (200, 120, 50));
+}
+
 .quran-folder-setting .setting-item-control {
   position: relative;
   display: flex;

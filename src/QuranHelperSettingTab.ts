@@ -141,5 +141,57 @@ export class QuranHelperSettingTab extends PluginSettingTab {
             void this.plugin.saveSettings();
           }),
       );
+
+    new Setting(containerEl).setName("Hadith Options").setHeading();
+
+    new Setting(containerEl)
+      .setName("Hadith Output Format")
+      .setDesc("Choose how the Hadith should be formatted")
+      .addDropdown((dropdown) =>
+        dropdown
+          .addOption("blockquote", "Blockquote")
+          .addOption("callout", "Callout")
+          .addOption("inline", "Inline")
+          .setValue(this.plugin.settings.hadithOutputFormat)
+          .onChange((value) => {
+            this.plugin.settings.hadithOutputFormat = value as
+              | "blockquote"
+              | "callout"
+              | "inline";
+            void this.plugin.saveSettings();
+            this.display();
+          }),
+      );
+
+    if (this.plugin.settings.hadithOutputFormat === "callout") {
+      new Setting(containerEl)
+        .setName("Hadith Callout Type")
+        .setDesc("Select the type of callout for Hadith")
+        .addDropdown((dropdown) => {
+          const calloutTypes = [
+            "hadith",
+            "quran",
+            "quran-ayah",
+            "note",
+            "info",
+            "todo",
+            "tip",
+            "success",
+            "question",
+            "warning",
+            "failure",
+            "danger",
+            "bug",
+            "example",
+            "quote",
+          ];
+          calloutTypes.forEach((type) => dropdown.addOption(type, type));
+          dropdown.setValue(this.plugin.settings.hadithCalloutType);
+          dropdown.onChange((value) => {
+            this.plugin.settings.hadithCalloutType = value;
+            void this.plugin.saveSettings();
+          });
+        });
+    }
   }
 }

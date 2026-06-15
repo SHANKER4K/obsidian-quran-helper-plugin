@@ -2,6 +2,7 @@ import { Notice, normalizePath, Plugin, TFolder, addIcon } from "obsidian";
 import { FzfAyahModal } from "src/FzfAyahModal";
 import { FzfSurahModal } from "src/FzfSurahModal";
 import { FzfPageModal } from "src/FzfPageModal";
+import { FzfHadithModal } from "src/FzfHadithModal";
 import type { QuranHelperSettings, IndexedAyah } from "src/types";
 import { DEFAULT_SETTINGS } from "src/types";
 import { QuranHelperSettingTab } from "src/QuranHelperSettingTab";
@@ -33,6 +34,11 @@ const QURAN_PAGE_ICON = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24
   <path d="M16 17H8"/>
 </svg>`;
 
+// 4. Icon for Hadith (open book)
+const HADITH_ICON = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/>
+</svg>`;
+
 export default class QuranHelper extends Plugin {
   settings!: QuranHelperSettings;
 
@@ -42,6 +48,7 @@ export default class QuranHelper extends Plugin {
     addIcon("quran-ayah", QURAN_AYAH_ICON);
     addIcon("quran-surah", QURAN_SURAH_ICON);
     addIcon("quran-page", QURAN_PAGE_ICON);
+    addIcon("quran-hadith", HADITH_ICON);
 
     // creates an icon in the left ribbon.
     this.addRibbonIcon("quran-ayah", "Insert Ayah (إدراج آية)", () => {
@@ -79,6 +86,18 @@ export default class QuranHelper extends Plugin {
       name: "Insert Page (إدراج صفحة)",
       callback: () => {
         new FzfPageModal(this.app, this).open();
+      },
+    });
+
+    this.addRibbonIcon("quran-hadith", "Insert Hadith (إدراج حديث)", () => {
+      new FzfHadithModal(this.app, this).open();
+    });
+
+    this.addCommand({
+      id: "open-fzf-hadith-modal",
+      name: "Insert Hadith (إدراج حديث)",
+      callback: () => {
+        new FzfHadithModal(this.app, this).open();
       },
     });
 

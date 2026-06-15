@@ -64,6 +64,27 @@ export interface IndexedSurah extends SearchableSurah {
   normalized_name: string;
 }
 
+export interface SearchableHadith {
+  number: number;
+  bookNumber: number;
+  chapter: string;
+  narrator: string;
+  arabic: string;
+  english: string;
+}
+
+export interface IndexedHadith extends SearchableHadith {
+  normalized_arabic: string;
+  normalized_english: string;
+}
+
+export interface HadithCollectionMeta {
+  id: string;
+  name: string;
+  name_ar: string;
+  total: number;
+}
+
 export interface QuranHelperSettings {
   outputFormat: "blockquote" | "callout" | "inline";
   calloutType: string;
@@ -76,6 +97,8 @@ export interface QuranHelperSettings {
     | "arabic/ayah";
   linkToSurah: boolean;
   showTranslation: boolean;
+  hadithOutputFormat: "blockquote" | "callout" | "inline";
+  hadithCalloutType: string;
 }
 
 export const DEFAULT_SETTINGS: QuranHelperSettings = {
@@ -85,5 +108,7 @@ export const DEFAULT_SETTINGS: QuranHelperSettings = {
   ayahNoteTags: "",
   ayahNotePathPattern: "surah-ayah",
   linkToSurah: false,
-  showTranslation: false,
+  showTranslation: true,
+  hadithOutputFormat: "callout",
+  hadithCalloutType: "hadith",
 };

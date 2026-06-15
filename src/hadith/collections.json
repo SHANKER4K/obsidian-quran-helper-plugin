@@ -1,0 +1,50 @@
+[
+  {
+    "id": "bukhari",
+    "name": "Sahih al-Bukhari",
+    "name_ar": "صحيح البخاري",
+    "total": 7277
+  },
+  {
+    "id": "muslim",
+    "name": "Sahih Muslim",
+    "name_ar": "صحيح مسلم",
+    "total": 7368
+  },
+  {
+    "id": "nasai",
+    "name": "Sunan an-Nasa'i",
+    "name_ar": "سنن النسائي",
+    "total": 5768
+  },
+  {
+    "id": "abudawud",
+    "name": "Sunan Abi Dawud",
+    "name_ar": "سنن أبي داود",
+    "total": 5276
+  },
+  {
+    "id": "tirmidhi",
+    "name": "Jami` at-Tirmidhi",
+    "name_ar": "جامع الترمذي",
+    "total": 4053
+  },
+  {
+    "id": "ibnmajah",
+    "name": "Sunan Ibn Majah",
+    "name_ar": "سنن ابن ماجه",
+    "total": 4345
+  },
+  {
+    "id": "malik",
+    "name": "Muwatta Malik",
+    "name_ar": "موطأ مالك",
+    "total": 1861
+  },
+  {
+    "id": "ahmad",
+    "name": "Musnad Ahmad",
+    "name_ar": "مسند أحمد",
+    "total": 4346
+  }
+]
