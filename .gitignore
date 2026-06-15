@@ -1,6 +1,6 @@
 # Dependencies
 node_modules/
-
+.codegraph
 # Build output
 main.js
 main.js.map
